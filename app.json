@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/movies/movies"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "black",
+    "navigationBarTitleText": "电影",
+    "navigationBarTextStyle": "white",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": true
+  },
+  "networkTimeout": {
+    "request": 30000,
+    "connectSocket": 30000,
+    "uploadFile": 30000,
+    "downloadFile": 30000
+  },
+  "debug": true
+
+}

@@ -1,0 +1,28 @@
+.itemContainer {
+    position: relative;
+    overflow: hidden;
+}
+
+.itemContainer view {
+    background: #FFF;
+    overflow: hidden;
+}
+
+.itemContainer view image {
+    float: left;
+    width: 100 rpx;
+    height: 240 rpx;
+}
+
+#banner {
+    width: 100%;
+    height: 300 rpx;
+}
+
+#content {
+    margin-left: 50px;
+}
+
+#content view {
+    text-align: center;
+}

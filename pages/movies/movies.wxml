@@ -1,0 +1,30 @@
+<view class="container">
+
+    <loading hidden="{{isLoading}}">加载中...</loading>
+    <scroll-view scroll-y="true" bindscrolltolower="loadMoreEvent" style="width: 100%; height: 100%">
+        <swiper indicator-dots="true" autoplay="true" interval="3000" duration="1000">
+            <block wx:for="{{bannerUrls}}">
+                <swiper-item>
+                    <image id="banner" src="{{item.url}}"/>
+                </swiper-item>
+            </block>
+        </swiper>
+        <block wx:for="{{moveItems}}">
+            <view class="itemContainer" bindtap="onItemClick">
+                <view>
+                    <image src="{{item.img}}"/>
+                    <view id="content">
+                        <text>名称: {{item.title}}</text>
+                        <text>收藏数量: {{item.collect}}</text>
+                        <view>演员:
+                            <view wx:for="{{item.cast}}" wx:for-item="itemCast">
+                                <text>{{itemCast}}</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+
+</view>
