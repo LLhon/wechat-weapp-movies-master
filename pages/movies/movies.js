@@ -63,23 +63,11 @@ function requestBannerData(that) {
 }
 
 function requestData(that, pageIndex, pageSize) {
-    wx.request({
-        url: Constant.BASE_URL.concat("movie/top250"),
-        data: {
-            start: pageIndex,
-            count: pageSize
-        },
-        header: {
-            'Content-Type': 'application/json'
-        },
-        success: function (res) {
-            console.log(res.data);
-            if (res == null || res.data == null || res.data.subjects.length == 0) {
-                console.log(Constant.REQUEST_DATA_NULL);
-                return;
-            }
-            for (var i = 0; i < res.data.subjects.length; i++) {
-                bindData(res.data.subjects[i]);
+    request.requestMoviesListData(
+        pageIndex, pageSize,
+        function (data) {
+            for (var i = 0; i < data.subjects.length; i++) {
+                bindData(data.subjects[i]);
             }
             var itemList = new Array();
             for (var i = 0; i < mTitles.length; i++) {
@@ -90,17 +78,17 @@ function requestData(that, pageIndex, pageSize) {
             })
             mPageIndex++;
         },
-        fail: function () {
+        function () {
             console.log('request fail');
         },
-        complete: function () {
+        function () {
             console.log('request complete');
             wx.stopPullDownRefresh();
             that.setData({
                 isLoading: true
             })
         }
-    })
+    );
 }
 
 /**

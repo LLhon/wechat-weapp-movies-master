@@ -43,10 +43,23 @@ function requestData(url, params, successCallback, failCallback, completeCallbac
 function requestBannerData(successCallback, failCallback, completeCallback) {
     requestData(api.getMoviesListUrl(), {start: 0, count: 3}, successCallback, failCallback, completeCallback);
 }
-
-function requestMoviesListData(pageIndex, pageCount, successCallback, failCallback, completeCallback) {
-    requestData(api.getMoviesListUrl(), {start: pageIndex, count: pageCount}, successCallback, failCallback, completeCallback);
+/**
+ * 获取影视列表
+ * @param pageIndex
+ * @param pageSize
+ * @param successCallback
+ * @param failCallback
+ * @param completeCallback
+ */
+function requestMoviesListData(pageIndex, pageSize, successCallback, failCallback, completeCallback) {
+    requestData(api.getMoviesListUrl(), {start: pageIndex, count: pageSize}, successCallback, failCallback, completeCallback);
 }
+function requestMovieDetailData(id, successCallback, failCallback, completeCallback) {
+    requestData(api.getMovieDetailUrl(id), {}, successCallback, failCallback, completeCallback);
+}
+
+
 
 module.exports.requestBannerData = requestBannerData
 module.exports.requestMoviesListData = requestMoviesListData
+module.exports.requestMovieDetailData = requestMovieDetailData
