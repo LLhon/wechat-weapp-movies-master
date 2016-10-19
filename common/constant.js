@@ -1,5 +1,5 @@
-var BASE_URL = "https://api.douban.com/v2/";
-var REQUEST_DATA_NULL = "请求数据为空,请重试";
+const BASE_URL = "https://api.douban.com/v2/";
+const REQUEST_DATA_NULL = "请求数据为空,请重试";
 
 /**报错:　无法编译constant.js
 module.exports = {

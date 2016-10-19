@@ -1,17 +1,8 @@
-.itemContainer {
-    position: relative;
-    overflow: hidden;
-}
+
 
 .itemContainer view {
     background: #FFF;
     overflow: hidden;
-}
-
-.itemContainer view image {
-    float: left;
-    width: 100 rpx;
-    height: 240 rpx;
 }
 
 #banner {
@@ -20,9 +11,23 @@
 }
 
 #content {
-    margin-left: 50px;
+    display: block;
 }
 
-#content view {
+#content image{
+    float: left;
+}
+
+.title {
     text-align: center;
+    margin-left: 20rpx;
+}
+
+text.title {
+    display: block;
+
+}
+
+.cast-text {
+    display: inline;
 }
