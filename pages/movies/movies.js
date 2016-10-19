@@ -2,11 +2,22 @@ var pageObject = {
     data: {
         moveItems: [],
         isLoading: false,
-        bannerUrls: []
+        bannerUrls: [],
+        screenHeight: ''
     },
     onLoad: function () {
         console.log('Movies onLoad');
         var that = this;
+        wx.getSystemInfo({
+            success: function(res) {
+                console.log('手机型号:' + res.model);
+                console.log('screenWidth:' + res.windowWidth);
+                console.log('screenHeight:' + res.windowHeight);
+                that.setData({
+                    screenHeight: res.windowHeight
+                })
+            }
+        })
         requestBannerData(that);
         requestData(that, mPageIndex, mPageSize);
     },
@@ -27,9 +38,11 @@ var pageObject = {
     },
     onPullDownRefresh: function () {
         //do something when pull down
+        console.log('refresh.....');
         requestData(this, 1, mPageSize);
     },
     loadMoreEvent: function (e) {
+        console.log('loadMore.....');
         console.log(e);
         requestData(this, mPageIndex, mPageSize);
     }

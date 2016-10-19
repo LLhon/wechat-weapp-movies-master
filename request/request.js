@@ -16,10 +16,18 @@ function requestData(url, params, successCallback, failCallback, completeCallbac
         data: params,
         header: {'Content-Type': 'application/json'},
         success: function (res) {
+            console.log('request success');
             if (app.debug) {
                 console.log('response---------data:' + res);
             }
+            if (res == null) {
+                return;
+            }
             if (res.statusCode == 200) {
+                if (res.data == null) {
+                    console.log('request data == null');
+                    return;
+                }
                 util.isFunction(successCallback) && successCallback(res.data);
             }else {
                 util.isFunction(successCallback) && failCallback();
