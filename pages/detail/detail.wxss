@@ -1,0 +1,14 @@
+.tabs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background-color: grey;
+    width: 100%;
+    height: 80rpx;
+}
+
+.detail-view {
+    width: 100%;
+    height: 100%;
+}

@@ -1,0 +1,26 @@
+<loading hidden="{{isLoading}}">loading.....</loading>
+
+<scroll-view scroll-y="true" style="width:100%; height:{{screenHeight}}px">
+    <view class="container">
+        <view>
+            <image style="width: 100%; height: 500rpx;" src="{{img}}"/>
+        </view>
+        <view class="tabs">
+            <view catchtap="onClickSummary">
+                <text style="color: {{tabTextColor}};">简介</text>
+            </view>
+            <view catchtap="onClickPhotos">
+                <text style="color: {{tabTextColor}};">剧照</text>
+            </view>
+            <view bindtap="onClickRelated">
+                <text style="color: {{tabTextColor}};">相关</text>
+            </view>
+        </view>
+        <view class="detail-view">
+            <text>{{detail.summary}}</text>
+        </view>
+    </view>
+</scroll-view>
+
+<toast hidden="{{toastHidden}}" bindchange="toastChange" duration="1000">This is Toast</toast>
+

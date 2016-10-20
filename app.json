@@ -1,6 +1,7 @@
 {
   "pages": [
-    "pages/movies/movies"
+    "pages/movies/movies",
+    "pages/detail/detail"
   ],
   "window": {
     "navigationBarBackgroundColor": "black",

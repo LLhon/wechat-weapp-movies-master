@@ -62,12 +62,32 @@ function requestBannerData(successCallback, failCallback, completeCallback) {
 function requestMoviesListData(pageIndex, pageSize, successCallback, failCallback, completeCallback) {
     requestData(api.getMoviesListUrl(), {start: pageIndex, count: pageSize}, successCallback, failCallback, completeCallback);
 }
+
+/**
+ * 获取电影详情
+ * @param id
+ * @param successCallback
+ * @param failCallback
+ * @param completeCallback
+ */
 function requestMovieDetailData(id, successCallback, failCallback, completeCallback) {
     requestData(api.getMovieDetailUrl(id), {}, successCallback, failCallback, completeCallback);
 }
 
+/**
+ * 获取正在上映的电影列表
+ * @param pageIndex
+ * @param pageSize
+ * @param successCallback
+ * @param failCallback
+ * @param completeCallback
+ */
+function requestInTheatersData(pageIndex, pageSize, successCallback, failCallback, completeCallback) {
+    requestData(api.getInTheatersUrl(), {start: pageIndex, count: pageSize}, successCallback, failCallback, completeCallback);
+}
 
 
 module.exports.requestBannerData = requestBannerData
 module.exports.requestMoviesListData = requestMoviesListData
 module.exports.requestMovieDetailData = requestMovieDetailData
+module.exports.requestInTheatersData = requestInTheatersData

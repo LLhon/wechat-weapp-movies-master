@@ -1,5 +1,6 @@
 
 .itemContainer {
+    display: block;
     padding: 20rpx;
     border-bottom: 1px solid darkgray;
 }
@@ -9,7 +10,8 @@
 }
 
 .content {
-    float: left;
+    display: block;
+    position: relative;
     margin-left: 20rpx;
 }
 
@@ -17,10 +19,25 @@
     display: block;
 }
 
-.content view {
-    display: block;
+.cast-text {
+    display: inline;
+    float: left;
+}
+
+.casts {
+    float: left;
 }
 
 .cast-text {
     display: inline;
+}
+
+.loadMore {
+    padding: 20rpx;
+    text-align: center;
+}
+
+.loadMore image {
+    width: 50rpx;
+    height: 50rpx;
 }
