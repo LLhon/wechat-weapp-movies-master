@@ -2,22 +2,33 @@
 
 <scroll-view scroll-y="true" style="width:100%; height:{{screenHeight}}px">
     <view class="container">
-        <view>
-            <image style="width: 100%; height: 500rpx;" src="{{img}}"/>
-        </view>
+        <image style="width: 100%; height: 750rpx;" src="{{img}}"/>
         <view class="tabs">
             <view catchtap="onClickSummary">
-                <text style="color: {{tabTextColor}};">简介</text>
+                <text style="color: {{isSelectedSummary ? tabSelectedColor : tabNormalColor}};">简介</text>
             </view>
             <view catchtap="onClickPhotos">
-                <text style="color: {{tabTextColor}};">剧照</text>
+                <text style="color: {{isSelectedPhotos ? tabSelectedColor : tabNormalColor}};">剧照</text>
             </view>
             <view bindtap="onClickRelated">
-                <text style="color: {{tabTextColor}};">相关</text>
+                <text style="color: {{isSelectedRelated ? tabSelectedColor : tabNormalColor}};">相关</text>
             </view>
         </view>
         <view class="detail-view">
-            <text>{{detail.summary}}</text>
+            <view hidden="{{!isSelectedSummary}}">
+                <text>{{summary}}</text>
+            </view>
+            <view hidden="{{!isSelectedPhotos}}">
+
+            </view>
+            <view hidden="{{!isSelectedRelated}}">
+                <view style="display: inline-block">主角<text style="color:red;">{{cast}}</text>的相关作品:</view>
+                <scroll-view scroll-x="true" style="margin-top: 20rpx;">
+                    <block wx:for="{{works}}">
+                        <image style="width: 240rpx; height: 260rpx; margin-left: 20rpx;" src="{{item}}"/>
+                    </block>
+                </scroll-view>
+            </view>
         </view>
     </view>
 </scroll-view>

@@ -86,8 +86,12 @@ function requestInTheatersData(pageIndex, pageSize, successCallback, failCallbac
     requestData(api.getInTheatersUrl(), {start: pageIndex, count: pageSize}, successCallback, failCallback, completeCallback);
 }
 
+function requestLeadWorksData(castId, successCallback, failCallback, completeCallback) {
+    requestData(api.getLeadWorksUrl(castId), {start: 0, count: 10}, successCallback, failCallback, completeCallback);
+}
 
 module.exports.requestBannerData = requestBannerData
 module.exports.requestMoviesListData = requestMoviesListData
 module.exports.requestMovieDetailData = requestMovieDetailData
 module.exports.requestInTheatersData = requestInTheatersData
+module.exports.requestLeadWorksData = requestLeadWorksData

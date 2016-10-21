@@ -3,12 +3,16 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    background-color: grey;
+    background: grey;
     width: 100%;
-    height: 80rpx;
+    height: 100rpx;
+    
 }
 
 .detail-view {
     width: 100%;
-    height: 100%;
+    margin-top: 20rpx;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
 }

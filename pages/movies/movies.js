@@ -89,7 +89,8 @@ function requestBannerData(that) {
     request.requestBannerData(
         function (data) {
             var urls = [];
-            for (var i = 0; i < data.subjects.length; i++) {
+            //关键字let为ES6标准引入的. var申明的是一个局部作用域的变量,而let申明的是一个块级作用域的变量.
+            for (let i = 0; i < data.subjects.length; i++) {
                 urls.push({id: data.subjects[i].id, url: data.subjects[i].images.large});
             }
             that.setData({
@@ -109,11 +110,11 @@ function requestData(that, pageIndex, pageSize) {
     request.requestInTheatersData(
         pageIndex, pageSize,
         function (data) {
-            for (var i = 0; i < data.subjects.length; i++) {
+            for (let i = 0; i < data.subjects.length; i++) {
                 bindData(data.subjects[i]);
             }
-            var itemList = new Array();
-            for (var i = 0; i < mTitles.length; i++) {
+            var itemList = [];
+            for (let i = 0; i < mTitles.length; i++) {
                 itemList.push({id: mIds[i], title: mTitles[i], img: mImgs[i], cast: mCasts[i], collect: mCollects[i]});
             }
             that.setData({
