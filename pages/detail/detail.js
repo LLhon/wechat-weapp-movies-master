@@ -110,7 +110,13 @@ function initData(_this) {
     );
 }
 
-function bindData(data, tempData) {
+function bindData(data, tempData, ...rest) {
+    //注意:　JavaScript函数允许传入任意个参数而不影响调用．
+    //关键字arguments只在函数内部起作用,类似于Array但又不是Array,可以用于获取调用者传入的所有参数.
+    //关键字rest可用于获取除函数已定义的参数之外的所有参数．eg: bindData(．．．)中定义的的data,tempData之外的参数．　调用者者bindData([], [], 1, 2, 3);
+    for (let i=0; i<arguments.length; i++) {
+        arguments[i];
+    }
     var img_value = data.images.large;
     var summary_value = data.summary;
     var year_value = data.year;

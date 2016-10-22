@@ -90,8 +90,17 @@ function requestLeadWorksData(castId, successCallback, failCallback, completeCal
     requestData(api.getLeadWorksUrl(castId), {start: 0, count: 10}, successCallback, failCallback, completeCallback);
 }
 
-module.exports.requestBannerData = requestBannerData
-module.exports.requestMoviesListData = requestMoviesListData
-module.exports.requestMovieDetailData = requestMovieDetailData
-module.exports.requestInTheatersData = requestInTheatersData
-module.exports.requestLeadWorksData = requestLeadWorksData
+
+//module.exports.requestBannerData = requestBannerData
+//module.exports.requestMoviesListData = requestMoviesListData
+//module.exports.requestMovieDetailData = requestMovieDetailData
+//module.exports.requestInTheatersData = requestInTheatersData
+//module.exports.requestLeadWorksData = requestLeadWorksData
+
+module.exports = {
+    requestBannerData: requestBannerData,
+    requestMoviesListData: requestMoviesListData,
+    requestMovieDetailData: requestMovieDetailData,
+    requestInTheatersData: requestInTheatersData,
+    requestLeadWorksData: requestLeadWorksData
+}

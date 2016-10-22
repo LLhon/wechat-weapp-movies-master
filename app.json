@@ -7,7 +7,7 @@
     "navigationBarBackgroundColor": "black",
     "navigationBarTitleText": "电影",
     "navigationBarTextStyle": "white",
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "enablePullDownRefresh": true
   },
   "networkTimeout": {

@@ -5,7 +5,8 @@ var pageObject = {
         bannerUrls: [],
         screenHeight: 0,
         animationData: {},
-        isLoadMore: false
+        isLoadMore: false,
+        scrollTop: 0
     },
     onLoad: function () {
         //一个页面只调用一次.
@@ -59,8 +60,13 @@ var pageObject = {
     },
     onPullDownRefresh: function () {
         //do something when pull down
-        console.log('refresh.....');
-        requestData(this, 1, mPageSize);
+        //貌似是个坑...只有用户下拉,就会触发该刷新事件.
+        if(this.data.scrollTop === 0) {
+            console.log('refresh.....');
+            requestData(this, 1, mPageSize);
+        }else {
+            wx.stopPullDownRefresh();
+        }
     },
     loadMoreEvent: function (e) {
         console.log('loadMore.....');
@@ -69,6 +75,14 @@ var pageObject = {
             isLoadMore: true
         })
         requestData(this, mPageIndex, mPageSize);
+    },
+    scrollEvent: function(e) {
+        console.log("scrollTop:" + e.detail.scrollTop); //0
+        console.log('scrollHeight:' + e.detail.scrollHeight); //1524
+        console.log('scroll-deltaY:' + e.detail.deltaY); //44
+        this.setData({
+            scrollTop: e.detail.scrollTop
+        })
     }
 }
 
@@ -84,6 +98,15 @@ function initData(that) {
     requestBannerData(that);
     requestData(that, mPageIndex, mPageSize);
 }
+
+/*
+//箭头函数相当于匿名函数.
+initData();
+var initData = (that) => {
+    requestBannerData(that);
+    requestData(that, mPageIndex, mPageSize);
+}
+*/
 
 function requestBannerData(that) {
     request.requestBannerData(
@@ -156,8 +179,13 @@ function bindData(itemData) {
     mTitles.push(itemData.title);
     mCollects.push(itemData.collect_count);
     mIds.push(itemData.id);
+
+    //console.log(test);　//这条语句并不报错．打印的值为为undefined
+    //JavaScript函数定义有个特点，它会先扫描整个函数体语句，把所有申明的变量提升到函数顶部．注意但不会提升变量的赋值，也就是说该变量取的值为为undefined
+    //var test = {a：1};
 }
 
 Page(pageObject);
 var Constant = require('../../common/constant.js');
 var request = require('../../request/request.js');
+

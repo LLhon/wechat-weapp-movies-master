@@ -32,8 +32,12 @@ function getLeadWorksUrl(castId){
     return BASE_URL.concat(`movie/celebrity/${castId}`); //'...' 模板字符串:ES6新标准, 会自动替换字符串中的变量.
 }
 
-module.exports.BASE_URL = BASE_URL
-module.exports.getMoviesListUrl = getMoviesListUrl
-module.exports.getMovieDetailUrl = getMovieDetailUrl
-module.exports.getInTheatersUrl = getInTheatersUrl
-module.exports.getLeadWorksUrl = getLeadWorksUrl
+
+
+module.exports = {
+    BASE_URL: BASE_URL,
+    getMoviesListUrl: getMoviesListUrl,
+    getMovieDetailUrl: getMovieDetailUrl,
+    getInTheatersUrl: getInTheatersUrl,
+    getLeadWorksUrl: getLeadWorksUrl
+}

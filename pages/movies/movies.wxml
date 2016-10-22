@@ -1,7 +1,7 @@
 <view class="container">
 
     <loading hidden="{{isLoading}}">loading.....</loading>
-    <scroll-view scroll-y="true" bindscrolltolower="loadMoreEvent" style="position: relative; width: 100%; height: {{screenHeight}}px">
+    <scroll-view scroll-y="true" bindscroll="scrollEvent" bindscrolltolower="loadMoreEvent" style="position: relative; width: 100%; height: {{screenHeight}}px">
         <swiper indicator-dots="true" autoplay="true" interval="3000" duration="1000">
             <block wx:for="{{bannerUrls}}">
                 <swiper-item>
