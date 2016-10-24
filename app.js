@@ -1,3 +1,6 @@
+var api = require('request/api.js');
+var request = require('request/request.js');
+
 App({
   onLaunch: function() {
     console.log('App onLaunch');
@@ -7,5 +10,7 @@ App({
   },
   onHide: function() {
     console.log('App onHide');
-  }
+  },
+  api: api,
+  request: request
 })

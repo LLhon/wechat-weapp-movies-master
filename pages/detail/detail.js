@@ -2,8 +2,6 @@
  * Created by LLhon on 2016/10/20.
  */
 var app = getApp();
-var request = require('../../request/request.js');
-
 
 Page({
     data: {
@@ -87,27 +85,45 @@ Page({
 })
 
 function initData(_this) {
-    request.requestMovieDetailData(_this.data.id,
-        function (data) {
-            console.log(data);
+    app.request.fetchApi(app.api.getMovieDetailUrl(_this.data.id), {})
+        .then(function (result) {
+            console.log(result);
             var tempData = {};
             //bindData(data, tempData);
             _this.setData({
                 //detailData: tempData,
                 //var img = detailData.img;
-                img: data.images.large,
-                summary: data.summary,
-                cast: data.casts[0].name
+                img: result.images.large,
+                summary: result.summary,
+                cast: result.casts[0].name
             })
-            requestLeadWorksData(_this, data.casts[0].id);
-        },
-        function () {
-            console.log('request fail');
-        },
-        function () {
-            console.log('request complete');
-        }
-    );
+            resolve(result.casts[0].id);
+            //requestLeadWorksData(_this, result.casts[0].id);
+        })
+        .then(function (result) {
+            app.request.fetchApi(app.api.getLeadWorksUrl(result), {start: 0, count: 10});
+        })
+        .then(function (result) {
+            console.log(result);
+            var imgs = [];
+            //var avatar = data.avatars.small; //头像
+            //var name_en = data['name_en']; //英文名
+            //var mobile_url = data['mobile_url']; //链接
+
+            //for...in  可以把一个对象的所有属性依次循环出来.
+            //eg: for(var key in obj)  //key 得到的为属性名.
+            //for...in 对Array的循环得到的的key是字符串类型的索引而不是Number类型的索引.
+            //具有Iterable类型的集合或数组可以用for...of语句来循环遍历.
+            for(var i=0; i<result.works.length; i++) {
+                imgs.push(result.works[i].subject.images.medium);
+            }
+            _this.setData({
+                works: imgs
+            })
+        })
+        .catch(function (reason) {
+
+        });
 }
 
 function bindData(data, tempData, ...rest) {
@@ -122,34 +138,6 @@ function bindData(data, tempData, ...rest) {
     var year_value = data.year;
     var shareUrl_value = data.share_url;
     tempData = {img: img_value, summary: summary_value, year: year_value, share: shareUrl_value};
-}
-
-function requestLeadWorksData(_this, castId){
-    request.requestLeadWorksData(castId, 
-        function(data) {
-            console.log(data);
-            var imgs = [];
-            //var avatar = data.avatars.small; //头像
-            //var name_en = data['name_en']; //英文名
-            //var mobile_url = data['mobile_url']; //链接
-
-            //for...in  可以把一个对象的所有属性依次循环出来.
-            //eg: for(var key in obj)  //key 得到的为属性名.
-            //for...in 对Array的循环得到的的key是字符串类型的索引而不是Number类型的索引.
-            //具有Iterable类型的集合或数组可以用for...of语句来循环遍历.
-            for(var i=0; i<data.works.length; i++) {
-                imgs.push(data.works[i].subject.images.medium);
-            }
-            _this.setData({
-                works: imgs
-            })
-        },
-        function() {
-            console.log('request fail');
-        },
-        function() {
-            console.log('request complete');
-        });
 }
 
 function bindToWorks(work){

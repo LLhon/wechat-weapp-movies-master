@@ -60,10 +60,10 @@ var pageObject = {
     },
     onPullDownRefresh: function () {
         //do something when pull down
-        //貌似是个坑...只有用户下拉,就会触发该刷新事件.
         if(this.data.scrollTop === 0) {
             console.log('refresh.....');
-            requestData(this, 1, mPageSize);
+            mPageIndex = 1;
+            initData(this);
         }else {
             wx.stopPullDownRefresh();
         }
@@ -74,7 +74,7 @@ var pageObject = {
         this.setData({
             isLoadMore: true
         })
-        requestData(this, mPageIndex, mPageSize);
+        initData(this);
     },
     scrollEvent: function(e) {
         console.log("scrollTop:" + e.detail.scrollTop); //0
@@ -86,6 +86,7 @@ var pageObject = {
     }
 }
 
+var app = getApp();
 var mPageIndex = 1;
 var mPageSize = 10;
 var mImgs = [];
@@ -95,8 +96,16 @@ var mCollects = [];
 var mIds = [];
 
 function initData(that) {
-    requestBannerData(that);
-    requestData(that, mPageIndex, mPageSize);
+    var banner = app.request.fetchApi(app.api.getMoviesListUrl(), {start: 0, count: 3});
+    var inTheaters = app.request.fetchApi(app.api.getInTheatersUrl(), {start: mPageIndex, count: mPageSize});
+    Promise.all([banner, inTheaters])
+        .then(function (result) {
+            setBannerData(that, result[0]);
+            setInTheatersData(that, result[1]);
+        })
+        .catch(function (reason) {
+
+        });
 }
 
 /*
@@ -108,55 +117,43 @@ var initData = (that) => {
 }
 */
 
-function requestBannerData(that) {
-    request.requestBannerData(
-        function (data) {
-            var urls = [];
-            //关键字let为ES6标准引入的. var申明的是一个局部作用域的变量,而let申明的是一个块级作用域的变量.
-            for (let i = 0; i < data.subjects.length; i++) {
-                urls.push({id: data.subjects[i].id, url: data.subjects[i].images.large});
-            }
-            that.setData({
-                bannerUrls: urls
-            })
-        },
-        function () {
-            console.log('request fail');
-        },
-        function () {
-            console.log('request complete');
-        }
-    );
+/**
+ * 设置轮播图数据
+ * @param data
+ */
+function setBannerData(that, data) {
+    var urls = [];
+    //关键字let为ES6标准引入的. var申明的是一个局部作用域的变量,而let申明的是一个块级作用域的变量.
+    for (let i = 0; i < data.subjects.length; i++) {
+        urls.push({id: data.subjects[i].id, url: data.subjects[i].images.large});
+    }
+    that.setData({
+        bannerUrls: urls
+    })
 }
 
-function requestData(that, pageIndex, pageSize) {
-    request.requestInTheatersData(
-        pageIndex, pageSize,
-        function (data) {
-            for (let i = 0; i < data.subjects.length; i++) {
-                bindData(data.subjects[i]);
-            }
-            var itemList = [];
-            for (let i = 0; i < mTitles.length; i++) {
-                itemList.push({id: mIds[i], title: mTitles[i], img: mImgs[i], cast: mCasts[i], collect: mCollects[i]});
-            }
-            that.setData({
-                moveItems: itemList
-            })
-            mPageIndex++;
-        },
-        function () {
-            console.log('request fail');
-        },
-        function () {
-            console.log('request complete');
-            wx.stopPullDownRefresh();
-            that.setData({
-                isLoading: true,
-                isLoadMore: false
-            })
-        }
-    );
+/**
+ * 设置正在热映影视数据
+ * @param data
+ */
+function setInTheatersData(that, data) {
+    for (let i = 0; i < data.subjects.length; i++) {
+        bindData(data.subjects[i]);
+    }
+    var itemList = [];
+    for (let i = 0; i < mTitles.length; i++) {
+        itemList.push({id: mIds[i], title: mTitles[i], img: mImgs[i], cast: mCasts[i], collect: mCollects[i]});
+    }
+    that.setData({
+        moveItems: itemList
+    })
+    mPageIndex++;
+
+    wx.stopPullDownRefresh();
+    that.setData({
+        isLoading: true,
+        isLoadMore: false
+    })
 }
 
 /**
@@ -187,5 +184,4 @@ function bindData(itemData) {
 
 Page(pageObject);
 var Constant = require('../../common/constant.js');
-var request = require('../../request/request.js');
 
