@@ -35,9 +35,5 @@ function getLeadWorksUrl(castId){
 
 
 module.exports = {
-    BASE_URL: BASE_URL,
-    getMoviesListUrl: getMoviesListUrl,
-    getMovieDetailUrl: getMovieDetailUrl,
-    getInTheatersUrl: getInTheatersUrl,
-    getLeadWorksUrl: getLeadWorksUrl
+    BASE_URL, getMoviesListUrl, getMovieDetailUrl, getInTheatersUrl, getLeadWorksUrl
 }

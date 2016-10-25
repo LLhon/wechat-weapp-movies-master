@@ -4,9 +4,13 @@ var pageObject = {
         isLoading: false,
         bannerUrls: [],
         screenHeight: 0,
-        animationData: {},
+        scrollTop: 0,
         isLoadMore: false,
-        scrollTop: 0
+        animationData: {},
+        loadMoreData: {
+            anim: {},
+            loadMore: false
+        }
     },
     onLoad: function () {
         //一个页面只调用一次.
@@ -49,19 +53,19 @@ var pageObject = {
     onItemClick: function (e) {
         console.log(e);
         wx.navigateTo({
-            url: '../detail/detail?id=' + e.currentTarget.dataset.id
+            url: '../detail/detail?id=' + e.currentTarget.dataset.id + '&title=' + e.currentTarget.dataset.title
         });
     },
     onClickBannerListener: function (e) {
         console.log(e);
         wx.navigateTo({
-            url: '../detail/detail?id=' + e.target.dataset.id
+            url: '../detail/detail?id=' + e.target.dataset.id + '&title=' + e.target.dataset.title
         })
     },
     onPullDownRefresh: function () {
         //do something when pull down
-        if(this.data.scrollTop === 0) {
-            console.log('refresh.....');
+        console.log('refresh.....', new Date());
+        if(this.data.scrollTop == 0) {
             mPageIndex = 1;
             initData(this);
         }else {
@@ -70,16 +74,15 @@ var pageObject = {
     },
     loadMoreEvent: function (e) {
         console.log('loadMore.....');
-        console.log(e);
         this.setData({
             isLoadMore: true
         })
         initData(this);
     },
     scrollEvent: function(e) {
-        console.log("scrollTop:" + e.detail.scrollTop); //0
-        console.log('scrollHeight:' + e.detail.scrollHeight); //1524
-        console.log('scroll-deltaY:' + e.detail.deltaY); //44
+        //console.log("scrollTop:" + e.detail.scrollTop); //0
+        //console.log('scrollHeight:' + e.detail.scrollHeight); //1524
+        //console.log('scroll-deltaY:' + e.detail.deltaY); //44
         this.setData({
             scrollTop: e.detail.scrollTop
         })
@@ -94,6 +97,8 @@ var mTitles = [];
 var mCasts = [];
 var mCollects = [];
 var mIds = [];
+var mDirector = [];
+var mScore = [];
 
 function initData(that) {
     var banner = app.request.fetchApi(app.api.getMoviesListUrl(), {start: 0, count: 3});
@@ -125,7 +130,7 @@ function setBannerData(that, data) {
     var urls = [];
     //关键字let为ES6标准引入的. var申明的是一个局部作用域的变量,而let申明的是一个块级作用域的变量.
     for (let i = 0; i < data.subjects.length; i++) {
-        urls.push({id: data.subjects[i].id, url: data.subjects[i].images.large});
+        urls.push({id: data.subjects[i].id, url: data.subjects[i].images.large, title: data.subjects[i].title});
     }
     that.setData({
         bannerUrls: urls
@@ -142,7 +147,7 @@ function setInTheatersData(that, data) {
     }
     var itemList = [];
     for (let i = 0; i < mTitles.length; i++) {
-        itemList.push({id: mIds[i], title: mTitles[i], img: mImgs[i], cast: mCasts[i], collect: mCollects[i]});
+        itemList.push({id: mIds[i], title: mTitles[i], img: mImgs[i], cast: mCasts[i], collect: mCollects[i], director: mDirector[i], score: mScore[i]});
     }
     that.setData({
         moveItems: itemList
@@ -176,6 +181,8 @@ function bindData(itemData) {
     mTitles.push(itemData.title);
     mCollects.push(itemData.collect_count);
     mIds.push(itemData.id);
+    mScore.push(itemData.rating.average);
+    mDirector.push(itemData.directors[0].name);
 
     //console.log(test);　//这条语句并不报错．打印的值为为undefined
     //JavaScript函数定义有个特点，它会先扫描整个函数体语句，把所有申明的变量提升到函数顶部．注意但不会提升变量的赋值，也就是说该变量取的值为为undefined

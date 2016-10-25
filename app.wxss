@@ -1,8 +1,30 @@
 .container {
-    height: 100%;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: stretch;
+    justify-content: space-between;
+    align-items: center;
 
+}
+
+.header {
+    padding: 20rpx;
+    text-align: center;
+}
+
+.footer {
+    padding: 20rpx;
+    text-align: center;
+    color: #555;
+}
+
+.footer image {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.footer text {
+    display: inline-block;
+    vertical-align: middle;
 }

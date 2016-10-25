@@ -6,6 +6,7 @@ var app = getApp();
 Page({
     data: {
         id: '',
+        title: '',
         screenHeight: 0,
         tabNormalColor: 'white',
         tabSelectedColor: 'blue',
@@ -24,7 +25,8 @@ Page({
         console.log(options);
         var _this = this;
         this.setData({
-            id: options.id
+            id: options.id,
+            title: options.title
         })
         wx.getSystemInfo({
             success: function (res) {
@@ -37,7 +39,7 @@ Page({
     },
     onReady: function () {
         wx.setNavigationBarTitle({
-            title: '详情'
+            title: this.data.title
         });
         this.setData({
             isLoading: true
@@ -60,7 +62,7 @@ Page({
     },
     onClickSummary: function () {
         this.setData({
-            toastHidden: false,
+            toastHidden: true,
             isSelectedSummary: true,
             isSelectedPhotos: false,
             isSelectedRelated: false
@@ -68,7 +70,7 @@ Page({
     },
     onClickPhotos: function () {
         this.setData({
-            toastHidden: false,
+            toastHidden: true,
             isSelectedSummary: false,
             isSelectedPhotos: true,
             isSelectedRelated: false
@@ -76,7 +78,7 @@ Page({
     },
     onClickRelated: function () {
         this.setData({
-            toastHidden: false,
+            toastHidden: true,
             isSelectedSummary: false,
             isSelectedPhotos: false,
             isSelectedRelated: true

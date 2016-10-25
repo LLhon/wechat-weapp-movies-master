@@ -1,35 +1,31 @@
 
 .itemContainer {
-    display: block;
+    display: flex;
     padding: 20rpx;
     border-bottom: 1px solid darkgray;
 }
-.itemContainer view {
-    background: #FFF;
-    overflow: hidden;
+
+.item-image {
+    width: 128px;
+}
+
+.item-image image {
+    width: 130px;
+    height: 180px;
 }
 
 .content {
-    display: block;
+    flex: auto;
     position: relative;
-    margin-left: 20rpx;
+    left: 20rpx;
 }
 
-.content text {
-    display: block;
+.content .label {
+    color: #555;
 }
 
-.cast-text {
-    display: inline;
-    float: left;
-}
-
-.casts {
-    float: left;
-}
-
-.cast-text {
-    display: inline;
+.content .score {
+    color:deeppink;
 }
 
 .loadMore {
