@@ -1,0 +1,16 @@
+<view class="container" style="height: {{screenHeight}}px">
+
+    <image mode="aspectFit" src="{{url}}" bindtap="onImgClick" bindlongtap="onImgLongClick"/>
+
+    <action-sheet hidden="{{isShowActionSheet}}" bindchange="actionSheetChange">
+        <block wx:for="{{actionSheetItems}}">
+            <action-sheet-item bindtap="onItemClick" data-item="{{item}}">{{item}}</action-sheet-item>
+        </block>
+        <action-sheet-cancel>取消</action-sheet-cancel>
+    </action-sheet>
+
+    <modal hidden="{{modalHidden}}" no-cancel bindconfirm="onClickConfirm">
+        <view>{{tipText}}</view>
+    </modal>
+
+</view>

@@ -3,11 +3,14 @@
  */
 var app = getApp();
 
+var that = {};
+
 Page({
     data: {
         id: '',
         title: '',
         screenHeight: 0,
+        imgContainerWidth: 0,
         tabNormalColor: 'white',
         tabSelectedColor: 'blue',
         img: '',
@@ -24,6 +27,7 @@ Page({
     onLoad: function (options) {
         console.log(options);
         var _this = this;
+        that = _this;
         this.setData({
             id: options.id,
             title: options.title
@@ -83,49 +87,69 @@ Page({
             isSelectedPhotos: false,
             isSelectedRelated: true
         })
+    },
+    horizontalScrollChange: function(e) {
+        console.log('scroll.....');
+    },
+    onClickItemListener: function(e) {
+        wx.redirectTo({
+            url: 'detail?id=' + e.currentTarget.dataset.id + "&title=" + e.currentTarget.dataset.title
+        })
+    },
+    onClickImg: function(e) {
+        wx.navigateTo({
+            url: '../gallery/gallery?url=' + e.currentTarget.dataset.url
+        })
     }
 })
 
+function requestMovieDetail(result) {
+    return app.request.fetchApi(app.api.getMovieDetailUrl(result), {});
+}
+
+function requestLeadWorks(result) {
+    console.log(result);
+    var tempData = {};
+    
+    that.setData({
+        img: result.images.large,
+        summary: result.summary,
+        cast: result.casts[0].name
+    })
+    return app.request.fetchApi(app.api.getLeadWorksUrl(result.casts[0].id), {start: 0, count: 10});
+}
+
 function initData(_this) {
-    app.request.fetchApi(app.api.getMovieDetailUrl(_this.data.id), {})
-        .then(function (result) {
-            console.log(result);
-            var tempData = {};
-            //bindData(data, tempData);
-            _this.setData({
-                //detailData: tempData,
-                //var img = detailData.img;
-                img: result.images.large,
-                summary: result.summary,
-                cast: result.casts[0].name
-            })
-            resolve(result.casts[0].id);
-            //requestLeadWorksData(_this, result.casts[0].id);
-        })
-        .then(function (result) {
-            app.request.fetchApi(app.api.getLeadWorksUrl(result), {start: 0, count: 10});
-        })
-        .then(function (result) {
-            console.log(result);
-            var imgs = [];
-            //var avatar = data.avatars.small; //头像
-            //var name_en = data['name_en']; //英文名
-            //var mobile_url = data['mobile_url']; //链接
+    new Promise((resolve, reject) => {
+        resolve(_this.data.id);
+    })
+    .then(requestMovieDetail)
+    .then(requestLeadWorks)
+    .then(function(result) {
+        console.log(result);
+        var imgs = [];
+        //var avatar = data.avatars.small; //头像
+        //var name_en = data['name_en']; //英文名
+        //var mobile_url = data['mobile_url']; //链接
 
-            //for...in  可以把一个对象的所有属性依次循环出来.
-            //eg: for(var key in obj)  //key 得到的为属性名.
-            //for...in 对Array的循环得到的的key是字符串类型的索引而不是Number类型的索引.
-            //具有Iterable类型的集合或数组可以用for...of语句来循环遍历.
-            for(var i=0; i<result.works.length; i++) {
-                imgs.push(result.works[i].subject.images.medium);
-            }
-            _this.setData({
-                works: imgs
-            })
-        })
-        .catch(function (reason) {
+        //for...in  可以把一个对象的所有属性依次循环出来.
+        //eg: for(var key in obj)  //key 得到的为属性名.
+        //for...in 对Array的循环得到的的key是字符串类型的索引而不是Number类型的索引.
+        //具有Iterable类型的集合或数组可以用for...of语句来循环遍历.
+        for(var i=0; i<result.works.length; i++) {
+            imgs.push({id: result.works[i].subject.id, img: result.works[i].subject.images.medium, title: result.works[i].subject.title});
+        }
 
-        });
+        var maxWidth = 128 * imgs.length + 20 * imgs.length;
+        
+        _this.setData({
+            works: imgs,
+            imgContainerWidth: maxWidth
+        })
+    })
+    .catch(function(reason){
+        console.log('fail:' + reason);
+    });
 }
 
 function bindData(data, tempData, ...rest) {

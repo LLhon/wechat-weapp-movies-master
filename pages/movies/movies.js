@@ -32,14 +32,6 @@ var pageObject = {
     onReady: function () {
         //一个页面只调用一次, 代表页面可以与视图层进行交互.
         console.log('Movies onReady');
-        var animation = wx.createAnimation({
-            duration: 400,
-            timingFunction: 'ease'
-        })
-        animation.rotate(45).step()
-        this.setData({
-            animationData: animation.export()
-        })
     },
     onShow: function () {
         console.log("Movies onShow");
@@ -77,6 +69,7 @@ var pageObject = {
         this.setData({
             isLoadMore: true
         })
+        updateRefreshAnimation(this);
         initData(this);
     },
     scrollEvent: function(e) {
@@ -87,6 +80,27 @@ var pageObject = {
             scrollTop: e.detail.scrollTop
         })
     }
+}
+
+/**
+ * 加载更多图标的动画
+ */
+function updateRefreshAnimation(that) {
+    var angle = 360;
+    var animation = wx.createAnimation({
+        duration: 600,
+        timingFunction: 'ease'
+    })
+    var timer = setInterval(() => {
+        if(!that.data.isLoadMore) {
+            clearInterval(timer);
+        }
+        animation.rotate(angle).step()
+        that.setData({
+            animationData: animation.export()
+        })
+        angle += 360;
+    }, 1000);
 }
 
 var app = getApp();

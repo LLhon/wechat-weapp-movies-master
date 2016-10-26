@@ -20,6 +20,10 @@
     left: 20rpx;
 }
 
+.content view {
+    padding: 5px;
+}
+
 .content .label {
     color: #555;
 }
