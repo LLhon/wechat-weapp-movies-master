@@ -12,7 +12,7 @@ Page({
         screenHeight: 0,
         imgContainerWidth: 0,
         tabNormalColor: 'white',
-        tabSelectedColor: 'blue',
+        tabSelectedColor: 'black',
         img: '',
         summary: '',
         cast: '',

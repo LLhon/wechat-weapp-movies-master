@@ -23,12 +23,13 @@
                 <text style="font-size: 18px">  暂无信息</text>
             </view>
             <view hidden="{{!isSelectedRelated}}">
-                <view style="display: inline-block; margin-left: 10px">主角<text style="color:red;">{{cast}}</text>的相关作品:</view>
+                <view style="display: inline-block; margin-left: 10px">主演<text style="color:red;">{{cast}}</text>的相关电影:</view>
                 <scroll-view scroll-x="true" style="margin-top: 20rpx; padding: 20rpx 10rpx 20rpx 10rpx">
-                    <view class="works-container" style="width: 180%; height: 90%">
+                    <view class="works-container" style="width: 165%; height: 90%">
                         <block wx:for="{{works}}">
                             <view>
                                 <image class="works-image" src="{{item.img}}" data-id="{{item.id}}" data-title="{{item.title}}" bindtap="onClickItemListener" />
+                                <text>{{item.title}}</text>
                             </view>
                         </block>
                     </view>
