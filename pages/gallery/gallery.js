@@ -6,7 +6,9 @@ Page({
     isShowActionSheet: true,
     actionSheetItems: ['保存到手机', '预览', '转发'],
     tipText: '',
-    modalHidden: true
+    modalHidden: true,
+    toastHidden: true,
+    toastText: ''
   },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
@@ -63,8 +65,13 @@ Page({
       this.setData({
           modalHidden: !this.data.modalHidden
       })
+  },
+  toastChange: function(e) {
+      this.setData({
+          toastHidden: !this.data.toastHidden
+      })
   }
-})
+}) 
 
 function saveImage(that) {
     wx.downloadFile({
@@ -75,7 +82,7 @@ function saveImage(that) {
             that.setData({
                 modalHidden: false,
                 tipText: '保存成功!',
-                isShowActionSheet: false
+                isShowActionSheet: true
             })
           },
           fail: function(e) {
@@ -83,16 +90,24 @@ function saveImage(that) {
             that.setData({
                 modalHidden: false,
                 tipText: '保存失败!',
-                isShowActionSheet: false
+                isShowActionSheet: true
             })
           }
       })
 }
 
 function preview(that) {
-    console.log('preview');
+    that.setData({
+        toastText: '预览',
+        toastHidden: false,
+        isShowActionSheet: true
+    })
 }
 
 function forward(that) {
-    console.log('forward');
+    that.setData({
+        toastText: '转发',
+        toastHidden: false,
+        isShowActionSheet: true
+    })
 }

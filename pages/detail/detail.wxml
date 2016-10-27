@@ -20,7 +20,7 @@
                 <text>{{summary}}</text>
             </view>
             <view hidden="{{!isSelectedPhotos}}">
-
+                <text style="font-size: 18px">  暂无信息</text>
             </view>
             <view hidden="{{!isSelectedRelated}}">
                 <view style="display: inline-block; margin-left: 10px">主角<text style="color:red;">{{cast}}</text>的相关作品:</view>

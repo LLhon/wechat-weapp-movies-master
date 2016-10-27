@@ -13,4 +13,6 @@
         <view>{{tipText}}</view>
     </modal>
 
+    <toast hidden="{{toastHidden}}" duration="1000" bindchange="toastChange">{{toastText}}</toast>
+
 </view>
