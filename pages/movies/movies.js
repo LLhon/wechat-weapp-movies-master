@@ -1,7 +1,6 @@
 var pageObject = {
     data: {
         moveItems: [],
-        isLoading: false,
         bannerUrls: [],
         screenHeight: 0,
         scrollTop: 0,
@@ -16,6 +15,11 @@ var pageObject = {
         //一个页面只调用一次.
         console.log('Movies onLoad');
         var that = this;
+        wx.showToast({
+            title: 'loading.....',
+            icon: 'loading',
+            duration: 1500
+        });
         //wx.showNavigationBarLoading();
         wx.getSystemInfo({
             success: function(res) {
@@ -169,8 +173,9 @@ function setInTheatersData(that, data) {
     mPageIndex++;
 
     wx.stopPullDownRefresh();
+    wx.hideToast();
+
     that.setData({
-        isLoading: true,
         isLoadMore: false
     })
 }

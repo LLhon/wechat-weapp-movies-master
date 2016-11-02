@@ -18,8 +18,6 @@ Page({
         cast: '',
         works: [],
         detailData: {},
-        isLoading: false,
-        toastHidden: true,
         isSelectedSummary: true,
         isSelectedPhotos: false,
         isSelectedRelated: false
@@ -31,7 +29,11 @@ Page({
         this.setData({
             id: options.id,
             title: options.title
-        })
+        });
+        wx.showToast({
+            title: 'loading.....',
+            icon: 'loading'
+        });
         wx.getSystemInfo({
             success: function (res) {
                 _this.setData({
@@ -45,9 +47,7 @@ Page({
         wx.setNavigationBarTitle({
             title: this.data.title
         });
-        this.setData({
-            isLoading: true
-        })
+        wx.hideToast();
     },
     onShow: function () {
         console.log('Detail onShow');
@@ -58,15 +58,8 @@ Page({
     onUnload: function () {
         
     },
-    toastChange: function (e) {
-        console.log(e);
-        this.setData({
-            toastHidden: true
-        })
-    },
     onClickSummary: function () {
         this.setData({
-            toastHidden: true,
             isSelectedSummary: true,
             isSelectedPhotos: false,
             isSelectedRelated: false
@@ -74,7 +67,6 @@ Page({
     },
     onClickPhotos: function () {
         this.setData({
-            toastHidden: true,
             isSelectedSummary: false,
             isSelectedPhotos: true,
             isSelectedRelated: false
@@ -82,7 +74,6 @@ Page({
     },
     onClickRelated: function () {
         this.setData({
-            toastHidden: true,
             isSelectedSummary: false,
             isSelectedPhotos: false,
             isSelectedRelated: true

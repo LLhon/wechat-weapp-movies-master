@@ -2,13 +2,7 @@ Page({
   data:{
     // text:"这是一个页面"
     url: '',
-    screenHeight: 0,
-    isShowActionSheet: true,
-    actionSheetItems: ['保存到手机', '预览', '转发'],
-    tipText: '',
-    modalHidden: true,
-    toastHidden: true,
-    toastText: ''
+    screenHeight: 0
   },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
@@ -36,39 +30,28 @@ Page({
   onUnload:function(){
     // 页面关闭
   },
-  actionSheetChange: function() {
-      this.setData({
-          isShowActionSheet: !this.data.isShowActionSheet
-      })
-  },
   onImgClick: function(e) {
       //wx.navigateBack();
   },
   onImgLongClick: function(e) {
-      this.setData({
-          isShowActionSheet: !this.data.isShowActionSheet
-      })
-  },
-  onItemClick: function(e) {
       var that = this;
-      var item = e.currentTarget.dataset.item;
-      if (item === that.data.actionSheetItems[0]) {
-          saveImage(that);
-      }else if(item === that.data.actionSheetItems[1]) {
-          preview(that);
-      }else {
-          forward(that);
-      }
-      
-  },
-  onClickConfirm: function(e) {
-      this.setData({
-          modalHidden: !this.data.modalHidden
-      })
-  },
-  toastChange: function(e) {
-      this.setData({
-          toastHidden: !this.data.toastHidden
+      wx.showActionSheet({
+          itemList: ['保存到手机', '预览', '转发'],
+          success: function (res) {
+              if (!res.cancel) {
+                  switch (res.tapIndex) {
+                      case 0:
+                          saveImage(that);
+                          break;
+                      case 1:
+                          preview(that);
+                          break;
+                      case 2:
+                          forward(that);
+                          break;
+                  }
+              }
+          }
       })
   }
 }) 
@@ -79,35 +62,37 @@ function saveImage(that) {
           type: 'image',
           success: function(res) {
             console.log('保存成功:' + res.tempFilePath);
-            that.setData({
-                modalHidden: false,
-                tipText: '保存成功!',
-                isShowActionSheet: true
+            wx.showModal({
+                title: '提示',
+                content: '保存成功',
+                showCancel: false,
+                success: function (res) {
+                    if (res.confirm == 1) {
+                        console.log('用户点击确定');
+                    }
+                }
             })
           },
           fail: function(e) {
             console.log('保存失败!');
-            that.setData({
-                modalHidden: false,
-                tipText: '保存失败!',
-                isShowActionSheet: true
+            wx.showToast({
+                title: '保存失败',
+                icon: 'success'
             })
           }
       })
 }
 
 function preview(that) {
-    that.setData({
-        toastText: '预览',
-        toastHidden: false,
-        isShowActionSheet: true
+    wx.showToast({
+        title: '预览',
+        icon: 'success'
     })
 }
 
 function forward(that) {
-    that.setData({
-        toastText: '转发',
-        toastHidden: false,
-        isShowActionSheet: true
+    wx.showToast({
+        title: '转发',
+        icon: 'success'
     })
 }

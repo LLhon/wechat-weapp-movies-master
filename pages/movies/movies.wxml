@@ -1,6 +1,5 @@
 <import src="../../common/footer.wxml"/>
 
-<loading hidden="{{isLoading}}">loading.....</loading>
     <!-- issue: 当scroll-view组件的高度设为100%时不会触发加载更多事件, 当设为屏幕高度时每次手指下滑总会触发下拉刷新事件-->
     <scroll-view style="height: {{screenHeight}}px" class="container" scroll-y="true" bindscroll="scrollEvent" bindscrolltolower="loadMoreEvent">
         <swiper indicator-dots="true" autoplay="true" interval="3000" duration="1000">
